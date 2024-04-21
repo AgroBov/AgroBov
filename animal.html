@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Animal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+         /* Estilo do cabeçalho */
+         header {
+            background: linear-gradient(to right, #333, #555);
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Estilo do menu de navegação */
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        nav ul li a:hover {
+            color: #ffcc00;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #edicaoPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+        }
+
+        #edicaoPopup h2 {
+            margin-top: 0;
+        }
+
+        #edicaoPopup input, #edicaoPopup select {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        #edicaoPopup button {
+            margin-right: 10px;
+        }
+        /* Estilo do rodapé */
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+        /* Estilo da barra de rolagem */
+        .scrollbar {
+            height: 100% ; /* Altura fixa da barra de rolagem */
+            overflow-y: scroll; /* Ativar a barra de rolagem vertical */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>AgroBov</h1>
+            <h4>J&P Toledo</h4>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Página Inicial</a></li>
+                <li><a href="#">Sobre Nós</a></li>
+                <li><a href="#">Produtos</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="scrollbar"> <!-- Envolver o conteúdo da página com a classe "scrollbar" -->
+        <h1>Dados</h1>
+        <table id="tabelaDados">
+            <thead>
+                <tr>
+                    <th>Brinco</th>
+                    <th>Peso</th>
+                    <th>Raça</th>
+                    <th>Data de Cadastro</th>
+                    <th>Sexo</th>
+                    <th>Origem</th>
+                    <th>B. da Mãe</th>
+                    <th>Dono</th>
+                    <th>Propriedade</th>
+                    <th>Observações</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="corpoTabela">
+            </tbody>
+        </table>
+        <button onclick="window.location.href = 'Cadastro.html'">Voltar para Cadastro</button>
+
+        <!-- Pop-up de edição -->
+        <div id="edicaoPopup">
+            <h2>Editar Animal</h2>
+            <form id="formEdicao">
+                <input type="text" id="editBrinco" placeholder="Novo Brinco">
+                <input type="text" id="editPeso" placeholder="Novo Peso">
+                <input type="text" id="editRaca" placeholder="Nova Raça">
+                <input type="text" id="editDataCadastro" placeholder="Nova Data de Cadastro">
+                <input type="text" id="editSexo" placeholder="Novo Sexo">
+                <select id="editOrigem" placeholder="Nova Origem" required>
+                    <option value="compra">Compra</option>
+                    <option value="nascimento">Nascimento</option>
+                </select><br>
+                <input type="text" id="editBrincoMae" placeholder="Novo B. da Mãe">
+                <input type="text" id="editDono" placeholder="Novo Dono">
+                <input type="text" id="editPropriedade" placeholder="Nova Propriedade">
+                <input type="text" id="editObservacao" placeholder="Nova Observação">
+                <button type="submit">Salvar</button>
+                <button type="button" onclick="fecharEdicao()">Cancelar</button>
+            </form>
+        </div>
+    </div> <!-- Fechar a div com a classe "scrollbar" -->
+    <footer>
+        <div class="contact-info">
+            <p>Email: joao.esolar@outlook.com</p>
+            <p>Telefone: (24) 99863-9090</p>
+            <p>Endereço: Guiricema, Zona Rural, MG</p>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 Grupo Guidoval Uba Moveis</p>
+        </div>
+    </footer>
+    <script>
+        var todosDados = localStorage.getItem('todosDadosComunicacao') ? JSON.parse(localStorage.getItem('todosDadosComunicacao')) : [];
+        var corpoTabela = document.getElementById('corpoTabela');
+        var indexEdicao = null;
+
+        function excluirCadastro(index) {
+            todosDados.splice(index, 1);
+            localStorage.setItem('todosDadosComunicacao', JSON.stringify(todosDados));
+            renderizarTabela();
+        }
+
+        function editarCadastro(index) {
+            indexEdicao = index;
+            var dados = todosDados[index];
+            document.getElementById('editBrinco').value = dados.brinco;
+            document.getElementById('editPeso').value = dados.peso;
+            document.getElementById('editRaca').value = dados.raca;
+            document.getElementById('editDataCadastro').value = dados.dataCadastro;
+            document.getElementById('editSexo').value = dados.sexo;
+            document.getElementById('editOrigem').value = dados.origem;
+            document.getElementById('editBrincoMae').value = dados.brincoMae;
+            document.getElementById('editDono').value = dados.dono;
+            document.getElementById('editPropriedade').value = dados.propriedade;
+            document.getElementById('editObservacao').value = dados.observacao;
+
+            document.getElementById('edicaoPopup').style.display = 'block';
+        }
+
+        function fecharEdicao() {
+            indexEdicao = null;
+            document.getElementById('edicaoPopup').style.display = 'none';
+        }
+
+        function salvarEdicao() {
+            var dados = todosDados[indexEdicao];
+            dados.brinco = document.getElementById('editBrinco').value;
+            dados.peso = document.getElementById('editPeso').value;
+            dados.raca = document.getElementById('editRaca').value;
+            dados.dataCadastro = document.getElementById('editDataCadastro').value;
+            dados.sexo = document.getElementById('editSexo').value;
+            dados.origem = document.getElementById('editOrigem').value;
+            dados.brincoMae = document.getElementById('editBrincoMae').value;
+            dados.dono = document.getElementById('editDono').value;
+            dados.propriedade = document.getElementById('editPropriedade').value;
+            dados.observacao = document.getElementById('editObservacao').value;
+
+            localStorage.setItem('todosDadosComunicacao', JSON.stringify(todosDados));
+            renderizarTabela();
+            fecharEdicao();
+        }
+
+        function renderizarTabela() {
+            corpoTabela.innerHTML = '';
+            todosDados.forEach(function(dados, index) {
+                var linha = document.createElement('tr');
+                for (var chave in dados) {
+                    if (dados.hasOwnProperty(chave)) {
+                        var coluna = document.createElement('td');
+                        coluna.textContent = dados[chave];
+                        linha.appendChild(coluna);
+                    }
+                }
+                var colunaAcoes = document.createElement('td');
+                var botaoExcluir = document.createElement('button');
+                var botaoEditar = document.createElement('button');
+                botaoExcluir.textContent = 'Excluir';
+                botaoEditar.textContent = 'Editar';
+                botaoExcluir.addEventListener('click', function() {
+                    excluirCadastro(index);
+                });
+                botaoEditar.addEventListener('click', function() {
+                    editarCadastro(index);
+                });
+                colunaAcoes.appendChild(botaoExcluir);
+                colunaAcoes.appendChild(botaoEditar);
+                linha.appendChild(colunaAcoes);
+                corpoTabela.appendChild(linha);
+            });
+        }
+
+        renderizarTabela();
+
+        document.getElementById('formEdicao').addEventListener('submit', function(event) {
+            event.preventDefault();
+            salvarEdicao();
+        });
+    </script>
+</body>
+</html>

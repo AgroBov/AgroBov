@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Donos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background: linear-gradient(to right, #333, #555);
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        nav ul li a:hover {
+            color: #ffcc00;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        form input[type="text"] {
+            width: calc(100% - 12px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        form button:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button.btn-excluir {
+            background-color: #f44336;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button.btn-excluir:hover {
+            background-color: #da190b;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>AgroBov</h1>
+            <h4>J&P Toledo</h4>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Página Inicial</a></li>
+                <li><a href="#">Sobre Nós</a></li>
+                <li><a href="#">Produtos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <form id="cadastroForm">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" required><br>
+            
+            <label for="abreviacao">Abreviação:</label>
+            <input type="text" id="abreviacao" required><br>
+            
+            <label for="divisao">Divisão:</label>
+            <input type="text" id="divisao" required><br>
+            
+            <button type="button" onclick="salvarDono()">Cadastrar</button>
+        </form>
+        
+        <h2>Donos Cadastrados</h2>
+        <table id="tabelaDonos">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Abreviação</th>
+                    <th>Divisão</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Os dados da tabela serão inseridos aqui -->
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <div class="contact-info">
+            <p>Email: joao.esolar@outlook.com</p>
+            <p>Telefone: (24) 99863-9090</p>
+            <p>Endereço: Guiricema, Zona Rural, MG</p>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 Grupo Guidoval Uba Moveis</p>
+        </div>
+    </footer>
+    <script>
+        window.onload = function () {
+            var donosSalvos = JSON.parse(localStorage.getItem('donos')) || [];
+            donosSalvos.forEach(function (dono) {
+                adicionarLinhaTabela(dono);
+            });
+        };
+
+        function salvarDono() {
+            var nome = document.getElementById('nome').value;
+            var abreviacao = document.getElementById('abreviacao').value;
+            var divisao = document.getElementById('divisao').value;
+
+            var dono = {
+                nome: nome,
+                abreviacao: abreviacao,
+                divisao: divisao
+            };
+
+            var donosSalvos = JSON.parse(localStorage.getItem('donos')) || [];
+            donosSalvos.push(dono);
+            localStorage.setItem('donos', JSON.stringify(donosSalvos));
+
+            adicionarLinhaTabela(dono);
+
+            document.getElementById('cadastroForm').reset();
+        }
+
+        function adicionarLinhaTabela(dono) {
+            var table = document.getElementById('tabelaDonos').getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow(table.rows.length);
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+
+            cell1.innerHTML = dono.nome;
+            cell2.innerHTML = dono.abreviacao;
+            cell3.innerHTML = dono.divisao;
+
+            var btnExcluir = document.createElement('button');
+            btnExcluir.textContent = 'Excluir';
+            btnExcluir.className = 'btn-excluir';
+            btnExcluir.onclick = function () {
+                excluirDono(newRow.rowIndex);
+            };
+            cell4.appendChild(btnExcluir);
+        }
+
+        function excluirDono(rowIndex) {
+            var table = document.getElementById('tabelaDonos').getElementsByTagName('tbody')[0];
+            table.deleteRow(rowIndex - 1);
+
+            var donosSalvos = JSON.parse(localStorage.getItem('donos')) || [];
+            donosSalvos.splice(rowIndex - 1, 1);
+            localStorage.setItem('donos', JSON.stringify(donosSalvos));
+        }
+    </script>
+</body>
+</html>

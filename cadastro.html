@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro</title>
+    <style>
+        /* Reset de margens e fonte */
+        body, h1, h4, p, input, select, button {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Estilo geral da página */
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Estilo do cabeçalho */
+        header {
+            background: linear-gradient(to right, #333, #555);
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Estilo do menu de navegação */
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        nav ul li a:hover {
+            color: #ffcc00;
+        }
+
+        /* Estilo do formulário */
+        form {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: calc(100% - 22px);
+            margin-bottom: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        select {
+            width: 100%;
+        }
+
+        /* Estilo dos botões */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            display: inline-block;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Estilo do rodapé */
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .contact-info p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>AgroBov</h1>
+            <h4>J&P Toledo</h4>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Página Inicial</a></li>
+                <li><a href="#">Sobre Nós</a></li>
+                <li><a href="#">Produtos</a></li>
+            </ul>
+        </nav>
+    </header>
+    <br>
+    <h1 style="text-align: center; color: #333; font-family: Arial, Helvetica, sans-serif">Cadastro de Animais</h1>
+    <form id="formCadastro">
+        <input type="hidden" id="indiceEdicao" name="indiceEdicao">
+        <label for="inputBrinco">Brinco:</label>
+        <input type="text" id="inputBrinco" name="brinco" placeholder="Brinco">
+        <label for="inputPeso">Peso:</label>
+        <input type="text" id="inputPeso" name="peso" placeholder="Peso">
+        <label for="inputRaca">Raça:</label>
+        <input type="text" id="inputRaca" name="raca" placeholder="Raça">
+        <label for="inputDataCadastro">Data de Cadastro:</label>
+        <input type="date" id="inputDataCadastro" name="dataCadastro">
+        <label for="inputSexo">Sexo:</label>
+        <select id="inputSexo" name="sexo">
+            <option value="M">Macho</option>
+            <option value="F">Fêmea</option>
+        </select>
+        <label for="origem">Origem:</label>
+        <select id="origem" name="origem" required>
+            <option value="compra">Compra</option>
+            <option value="nascimento">Nascimento</option>
+        </select>
+        
+        <div id="brincoMaeDiv" style="display: none;">
+            <label for="brincoMae">Brinco da Mãe:</label>
+            <input type="text" id="brincoMae" name="brincoMae">
+        </div>
+        <label for="dono">Dono:</label>
+        <select id="dono" name="dono" required>
+            <!-- Opções serão preenchidas dinamicamente com JavaScript -->
+        </select>
+        <label for="propriedade">Propriedade:</label>
+        <select id="propriedade" name="propriedade" required>
+            <!-- Opções serão preenchidas dinamicamente com JavaScript -->
+        </select>
+        <label for="observacao">Observação:</label>
+        <input type="text" id="observacao" name="observacao" placeholder="Observação">
+        <button type="button" id="btnSalvar">Salvar</button>
+    </form>
+    <footer>
+        <div class="contact-info">
+            <p>Email: joao.esolar@outlook.com</p>
+            <p>Telefone: (24) 99863-9090</p>
+            <p>Endereço: Guiricema, Zona Rural, MG</p>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 Grupo Guidoval Uba Moveis</p>
+        </div>
+    </footer>
+    <script>
+        document.getElementById('origem').addEventListener('change', function () {
+            var brincoMaeDiv = document.getElementById('brincoMaeDiv');
+            if (this.value === 'nascimento') {
+                brincoMaeDiv.style.display = 'block';
+            } else {
+                brincoMaeDiv.style.display = 'none';
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var formCadastro = document.getElementById('formCadastro');
+            var indiceEdicaoInput = document.getElementById('indiceEdicao');
+            var todosDados = localStorage.getItem('todosDadosComunicacao') ? JSON.parse(localStorage.getItem('todosDadosComunicacao')) : [];
+
+            // Função para preencher o campo "Dono" com opções da localStorage
+            function preencherDonos() {
+                var selectDono = document.getElementById('dono');
+                var donosSalvos = JSON.parse(localStorage.getItem('donos')) || [];
+                donosSalvos.forEach(function(dono) {
+                    var option = document.createElement('option');
+                    option.value = dono.abreviacao;
+                    option.textContent = dono.abreviacao; // Alterado para abreviação
+                    selectDono.appendChild(option);
+                });
+            }
+
+            preencherDonos(); // Chamar a função ao carregar a página
+
+            // Função para preencher o campo "Propriedade" com opções da localStorage
+            function preencherPropriedades() {
+                var selectPropriedade = document.getElementById('propriedade');
+                var propriedadesSalvas = JSON.parse(localStorage.getItem('propriedades')) || [];
+                propriedadesSalvas.forEach(function(propriedade) {
+                    var option = document.createElement('option');
+                    option.value = propriedade.abreviacao;
+                    option.textContent = propriedade.abreviacao; // Alterado para abreviação
+                    selectPropriedade.appendChild(option);
+                });
+            }
+
+            preencherPropriedades(); // Chamar a função ao carregar a página
+
+            function preencherFormularioEdicao(index) {
+                var dados = todosDados[index];
+                indiceEdicaoInput.value = index;
+                formCadastro.brinco.value = dados.brinco;
+                formCadastro.peso.value = dados.peso;
+                formCadastro.raca.value = dados.raca;
+                formCadastro.dataCadastro.value = dados.dataCadastro;
+                formCadastro.sexo.value = dados.sexo;
+            }
+
+            var indiceEdicao = parseInt(indiceEdicaoInput.value);
+            if (!isNaN(indiceEdicao) && indiceEdicao >= 0 && indiceEdicao < todosDados.length) {
+                preencherFormularioEdicao(indiceEdicao);
+            }
+
+            document.getElementById('btnSalvar').addEventListener('click', function() {
+                var indiceEdicao = parseInt(indiceEdicaoInput.value);
+                var novoCadastro = {
+                    brinco: formCadastro.brinco.value,
+                    peso: formCadastro.peso.value,
+                    raca: formCadastro.raca.value,
+                    dataCadastro: formCadastro.dataCadastro.value,
+                    sexo: formCadastro.sexo.value,
+                    origem: formCadastro.origem.value,
+                    brincoMae: formCadastro.brincoMae.value,
+                    dono: formCadastro.dono.value, // Adiciona o dono selecionado ao cadastro
+                    propriedade: formCadastro.propriedade.value, // Adiciona a propriedade selecionada ao cadastro
+                    observacao: formCadastro.observacao.value,
+                };
+                if (!isNaN(indiceEdicao) && indiceEdicao >= 0 && indiceEdicao < todosDados.length) {
+                    todosDados[indiceEdicao] = novoCadastro;
+                } else {
+                    todosDados.push(novoCadastro);
+                }
+                localStorage.setItem('todosDadosComunicacao', JSON.stringify(todosDados));
+                formCadastro.reset();
+                indiceEdicaoInput.value = '';
+                window.location.href = 'Animal.html';
+            });
+        });
+    </script>
+</body>
+</html>

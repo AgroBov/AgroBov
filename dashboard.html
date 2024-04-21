@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Meu Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            padding-bottom: 250px; /* Ajuste para a altura do rodapé */
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .logo h1, .logo h4 {
+            margin: 5px 0;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        nav ul li a:hover {
+            color: #ffcc00;
+        }
+
+        footer {
+            position: fixed; /* Posicionamento fixo */
+            left: 0;
+            bottom: 0;
+            width: 100%; /* Largura total */
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0px;
+            text-align: center;
+        }
+
+        .dashboard-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .dashboard-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .dashboard-item {
+            width: 200px;
+            height: 200px;
+            background-color: #007bff;
+            color: #fff;
+            margin: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+        }
+
+        .dashboard-item:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilo para o link do item 1 */
+        .dashboard-item a {
+            text-decoration: none;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>AgroBov</h1>
+            <h4>J&P Toledo</h4>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Página Inicial</a></li>
+                <li><a href="#">Sobre Nós</a></li>
+                <li><a href="#">Produtos</a></li>
+                <li><a href="#" id="login-link">Login</a></li> <!-- Adicionando ID ao link de login -->
+            </ul>
+        </nav>
+    </header>
+
+    <div class="dashboard-container">
+        <h2>Dashboard</h2>
+        <div class="dashboard-content">
+            <div class="dashboard-item">
+                <a href="cadastro.html">
+                <h3>Cadastrar<br>Animal</h3>
+                </a>
+            </div>
+            <div class="dashboard-item">
+                <a href="propriedade.html">
+                <h3>Propriedades</h3>
+            </div>
+            <div class="dashboard-item">
+                <a href="donos.html">
+                <h3>Donos</h3>
+            </div>
+            <div class="dashboard-item">
+                <a href="animal.html">
+                <h3>Cadastrar Animal</h3>
+            </div>
+            <div class="dashboard-item">
+                <a href="estatisticas.html">
+                <h3>Estatistica</h3>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="contact-info">
+            <p>Email: joao.esolar@outlook.com</p>
+            <p>Telefone: (24) 99863-9090</p>
+            <p>Endereço: Guiricema, Zona Rural, MG</p>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 Grupo Guidoval Uba Moveis</p>
+        </div>
+    </footer>
+</body>
+</html>

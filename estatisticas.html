@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Estatísticas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+    
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+    
+        .logo h1, .logo h4 {
+            margin: 5px 0;
+        }
+    
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+    
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+    
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+    
+        nav ul li a:hover {
+            color: #ffcc00;
+        }
+
+        h1, h2, h3 {
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        select, input[type="date"], input[type="number"], input[type="text"], button {
+            margin-bottom: 10px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .add-form {
+            margin-top: 20px;
+        }
+
+        .details-table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .details-table th, .details-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .details-table th {
+            background-color: #f2f2f2;
+        }
+
+        .details-table td {
+            background-color: #fff;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer p {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>AgroBov</h1>
+            <h4>J&P Toledo</h4>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Página Inicial</a></li>
+                <li><a href="#">Sobre Nós</a></li>
+                <li><a href="#">Produtos</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1>Estatísticas</h1>
+    <label for="selectBrinco">Selecione o Brinco:</label>
+    <select id="selectBrinco">
+        <!-- Aqui serão listadas as opções de brinco -->
+    </select>
+    <button onclick="exibirDadosAnimal()">Exibir Dados</button>
+
+    <div id="dadosAnimal">
+        <!-- Aqui serão exibidos os dados do animal selecionado -->
+    </div>
+
+    <h2>Tabela de Pesos</h2>
+    <table id="tabelaPesos">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Peso</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="corpoTabelaPesos">
+            <!-- Aqui serão inseridas as linhas da tabela de pesos -->
+        </tbody>
+    </table>
+
+    <h2>Tabela de Dados de Parto</h2>
+    <table id="tabelaParto">
+        <thead>
+            <tr>
+                <th>Data do Parto</th>
+                <th>Sexo do Bezerro</th>
+                <th>Observação</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="corpoTabelaParto">
+            <!-- Aqui serão inseridas as linhas da tabela de dados de parto -->
+        </tbody>
+    </table>
+
+    <form id="formNovoPeso" class="add-form">
+        <label for="inputData">Data:</label>
+        <input type="date" id="inputData">
+        <label for="inputPeso">Peso:</label>
+        <input type="number" id="inputPeso" step="0.01">
+        <button type="submit">Adicionar Peso</button>
+    </form>
+
+    <form id="formNovoParto" class="add-form">
+        <label for="inputDataParto">Data do Parto:</label>
+        <input type="date" id="inputDataParto">
+        <label for="inputSexoBezerro">Sexo do Bezerro:</label>
+        <select id="inputSexoBezerro">
+            <option value="Macho">Macho</option>
+            <option value="Fêmea">Fêmea</option>
+        </select>
+        <label for="inputObservacao">Observação:</label>
+        <input type="text" id="inputObservacao">
+        <button type="submit">Adicionar Dados de Parto</button>
+    </form>
+    <br><br><br><br><br><br>
+    <footer>
+        <div class="contact-info">
+            <p>Email: joao.esolar@outlook.com</p>
+            <p>Telefone: (24) 99863-9090</p>
+            <p>Endereço: Guiricema, Zona Rural, MG</p>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 Grupo Guidoval Uba Moveis</p>
+        </div>
+    </footer>
+
+    <script>
+        // Recuperar os dados da tabela na página Animal
+        var dadosString = localStorage.getItem('todosDadosComunicacao');
+        var todosDados = dadosString ? JSON.parse(dadosString) : [];
+
+        // Preencher o select com os brincos disponíveis
+        var selectBrinco = document.getElementById('selectBrinco');
+        todosDados.forEach(function(animal) {
+            var option = document.createElement('option');
+            option.value = animal.brinco;
+            option.textContent = animal.brinco;
+            selectBrinco.appendChild(option);
+        });
+
+        function exibirDadosAnimal() {
+            var brincoSelecionado = document.getElementById('selectBrinco').value;
+            var dadosAnimalDiv = document.getElementById('dadosAnimal');
+            dadosAnimalDiv.innerHTML = ''; // Limpar dados anteriores
+
+            // Procurar o animal com o brinco selecionado
+            var animalSelecionado = todosDados.find(function(animal) {
+                return animal.brinco === brincoSelecionado;
+            });
+
+            if (animalSelecionado) {
+                var detailsTable = document.createElement('table');
+                detailsTable.classList.add('details-table');
+                for (var chave in animalSelecionado) {
+                    if (animalSelecionado.hasOwnProperty(chave)) {
+                        var linha = detailsTable.insertRow();
+                        var colunaChave = linha.insertCell(0);
+                        var colunaValor = linha.insertCell(1);
+                        colunaChave.textContent = chave;
+                        colunaValor.textContent = animalSelecionado[chave];
+                    }
+                }
+                dadosAnimalDiv.appendChild(detailsTable);
+            } else {
+                dadosAnimalDiv.textContent = 'Nenhum animal encontrado com o brinco selecionado.';
+            }
+
+            // Exibir tabela de pesos para o brinco selecionado
+            exibirTabelaPesos(brincoSelecionado);
+            // Exibir tabela de dados de parto para o brinco selecionado
+            exibirTabelaParto(brincoSelecionado);
+        }
+
+        function exibirTabelaPesos(brinco) {
+            var corpoTabelaPesos = document.getElementById('corpoTabelaPesos');
+            corpoTabelaPesos.innerHTML = ''; // Limpar dados anteriores
+
+            // Procurar os pesos do animal com o brinco selecionado
+            var animalSelecionado = todosDados.find(function(animal) {
+                return animal.brinco === brinco;
+            });
+
+            if (animalSelecionado && animalSelecionado.pesos) {
+                animalSelecionado.pesos.forEach(function(peso) {
+                    var linha = document.createElement('tr');
+                    var colunaData = document.createElement('td');
+                    colunaData.textContent = peso.data;
+                    var colunaPeso = document.createElement('td');
+                    colunaPeso.textContent = peso.peso;
+                    var colunaAcoes = document.createElement('td');
+                    var botaoExcluir = document.createElement('button');
+                    botaoExcluir.textContent = 'Excluir';
+                    botaoExcluir.addEventListener('click', function() {
+                        excluirPeso(brinco, peso.data);
+                    });
+                    colunaAcoes.appendChild(botaoExcluir);
+                    linha.appendChild(colunaData);
+                    linha.appendChild(colunaPeso);
+                    linha.appendChild(colunaAcoes);
+                    corpoTabelaPesos.appendChild(linha);
+                });
+            } else {
+                var linha = document.createElement('tr');
+                var coluna = document.createElement('td');
+                coluna.colSpan = 3;
+                coluna.textContent = 'Nenhum registro de peso para este animal.';
+                linha.appendChild(coluna);
+                corpoTabelaPesos.appendChild(linha);
+            }
+        }
+
+        function exibirTabelaParto(brinco) {
+            var corpoTabelaParto = document.getElementById('corpoTabelaParto');
+            corpoTabelaParto.innerHTML = ''; // Limpar dados anteriores
+
+            // Procurar os dados de parto do animal com o brinco selecionado
+            var animalSelecionado = todosDados.find(function(animal) {
+                return animal.brinco === brinco;
+            });
+
+            if (animalSelecionado && animalSelecionado.dadosParto) {
+                animalSelecionado.dadosParto.forEach(function(parto) {
+                    var linha = document.createElement('tr');
+                    var colunaDataParto = document.createElement('td');
+                    colunaDataParto.textContent = parto.dataParto;
+                    var colunaSexoBezerro = document.createElement('td');
+                    colunaSexoBezerro.textContent = parto.sexoBezerro;
+                    var colunaObservacao = document.createElement('td');
+                    colunaObservacao.textContent = parto.observacao;
+                    var colunaAcoes = document.createElement('td');
+                    var botaoExcluir = document.createElement('button');
+                    botaoExcluir.textContent = 'Excluir';
+                    botaoExcluir.addEventListener('click', function() {
+                        excluirDadosParto(brinco, parto.dataParto);
+                    });
+                    colunaAcoes.appendChild(botaoExcluir);
+                    linha.appendChild(colunaDataParto);
+                    linha.appendChild(colunaSexoBezerro);
+                    linha.appendChild(colunaObservacao);
+                    linha.appendChild(colunaAcoes);
+                    corpoTabelaParto.appendChild(linha);
+                });
+            } else {
+                var linha = document.createElement('tr');
+                var coluna = document.createElement('td');
+                coluna.colSpan = 4;
+                coluna.textContent = 'Nenhum registro de dados de parto para este animal.';
+                linha.appendChild(coluna);
+                corpoTabelaParto.appendChild(linha);
+            }
+        }
+
+        function excluirPeso(brinco, data) {
+            var animalIndex = todosDados.findIndex(function(animal) {
+                return animal.brinco === brinco;
+            });
+
+            if (animalIndex !== -1) {
+                var animal = todosDados[animalIndex];
+                if (animal.pesos) {
+                    var novoPesos = animal.pesos.filter(function(peso) {
+                        return peso.data !== data;
+                    });
+                    animal.pesos = novoPesos;
+                    localStorage.setItem('todosDadosComunicacao', JSON.stringify(todosDados));
+                    exibirTabelaPesos(brinco);
+                }
+            }
+        }
+
+        function excluirDadosParto(brinco, dataParto) {
+            var animalIndex = todosDados.findIndex(function(animal) {
+                return animal.brinco === brinco;
+            });
+
+            if (animalIndex !== -1) {
+                var animal = todosDados[animalIndex];
+                if (animal.dadosParto) {
+                    var novosDadosParto = animal.dadosParto.filter(function(parto) {
+                        return parto.dataParto !== dataParto;
+                    });
+                    animal.dadosParto = novosDadosParto;
+                    localStorage.setItem('todosDadosComunicacao', JSON.stringify(todosDados));
+                    exibirTabelaParto(brinco);
+                }
+            }
+        }
+
+        document.getElementById('formNovoPeso').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var brincoSelecionado = document.getElementById('selectBrinco').value;
+            var newData = document.getElementById('inputData').value;
+            var newPeso = document.getElementById('inputPeso').value;
+            var animalIndex = todosDados.findIndex(function(animal) {
+                return animal.brinco === brincoSelecionado;
+            });
+
+            if (animalIndex !== -1) {
+                if (!todosDados[animalIndex].pesos) {
+                    todosDados[animalIndex].pesos = [];
+                }
+                todosDados[animalIndex].pesos.push({ data: newData, peso: newPeso });
+                localStorage.setItem('todosDadosComunicacao', JSON.stringify(todosDados));
+                exibirTabelaPesos(brincoSelecionado);
+            }
+        });
+
+        document.getElementById('formNovoParto').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var brincoSelecionado = document.getElementById('selectBrinco').value;
+            var newDataParto = document.getElementById('inputDataParto').value;
+            var newSexoBezerro = document.getElementById('inputSexoBezerro').value;
+            var newObservacao = document.getElementById('inputObservacao').value;
+            var animalIndex = todosDados.findIndex(function(animal) {
+                return animal.brinco === brincoSelecionado;
+            });
+
+            if (animalIndex !== -1) {
+                if (!todosDados[animalIndex].dadosParto) {
+                    todosDados[animalIndex].dadosParto = [];
+                }
+                todosDados[animalIndex].dadosParto.push({ dataParto: newDataParto, sexoBezerro: newSexoBezerro, observacao: newObservacao });
+                localStorage.setItem('todosDadosComunicacao', JSON.stringify(todosDados));
+                exibirTabelaParto(brincoSelecionado);
+            }
+        });
+        
+    </script>
+</body>
+</html>

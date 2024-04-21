@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Propriedades</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            margin-bottom: 100px; /* Adiciona uma margem inferior */
+        }
+        
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .logo h1, .logo h4 {
+            margin: 5px 0;
+        }
+        
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        
+        nav ul li a:hover {
+            color: #ffcc00;
+        }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        .container {
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+        
+        form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        
+        form button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        
+        form button:hover {
+            background-color: #ffcc00;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        tr:hover {
+            background-color: #ddd;
+        }
+        
+        .btn-excluir {
+            padding: 5px 10px;
+            background-color: #f44336;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-excluir:hover {
+            background-color: #ff9999;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>AgroBov</h1>
+            <h4>J&P Toledo</h4>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Página Inicial</a></li>
+                <li><a href="#">Sobre Nós</a></li>
+                <li><a href="#">Produtos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    
+    <div class="container">
+        <form id="cadastroForm">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" required><br><br>
+            
+            <label for="abreviacao">Abreviação:</label>
+            <input type="text" id="abreviacao" required><br><br>
+            
+            <label for="tamanho">Tamanho (Hectares):</label>
+            <input type="number" id="tamanho" required><br><br>
+            
+            <label for="donos">Donos:</label>
+            <input type="text" id="donos" required><br><br>
+            
+            <label for="localizacao">Localização:</label>
+            <input type="text" id="localizacao" required><br><br>
+            
+            <button type="button" onclick="salvarPropriedade()">Cadastrar</button>
+        </form>
+        
+        <h2>Propriedades Cadastradas</h2>
+        <table id="tabelaPropriedades">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Abreviação</th>
+                    <th>Tamanho (Hectares)</th>
+                    <th>Donos</th>
+                    <th>Localização</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Os dados da tabela serão inseridos aqui -->
+            </tbody>
+        </table>
+    </div>
+    <br><br><br><br>
+    <h6>Todas as propriedades cadastradas estão acima</h6>
+    <footer>
+        <div class="contact-info">
+            <p>Email: joao.esolar@outlook.com</p>
+            <p>Telefone: (24) 99863-9090</p>
+            <p>Endereço: Guiricema, Zona Rural, MG</p>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 Grupo Guidoval Uba Moveis</p>
+        </div>
+    </footer>
+    <script>
+        // Carregar propriedades salvas ao carregar a página
+        window.onload = function () {
+            var propriedadesSalvas = JSON.parse(localStorage.getItem('propriedades')) || [];
+            propriedadesSalvas.forEach(function (propriedade) {
+                adicionarLinhaTabela(propriedade);
+            });
+            // Buscar propriedades na página donos.html e preencher o campo "Dono"
+            fetch('propriedade.html')
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    const options = doc.querySelectorAll('table tr:not(:first-child) td:nth-child(2)');
+                    const select = document.getElementById('dono');
+                    options.forEach(option => {
+                        const value = option.textContent.trim(); // Remove espaços em branco em excesso
+                        const optionElement = document.createElement('option');
+                        optionElement.value = value;
+                        optionElement.textContent = value;
+                        select.appendChild(optionElement);
+                    });
+                });
+        };
+
+        function salvarPropriedade() {
+            var nome = document.getElementById('nome').value;
+            var abreviacao = document.getElementById('abreviacao').value;
+            var tamanho = document.getElementById('tamanho').value;
+            var donos = document.getElementById('donos').value;
+            var localizacao = document.getElementById('localizacao').value;
+
+            // Criar objeto propriedade
+            var propriedade = {
+                nome: nome,
+                abreviacao: abreviacao,
+                tamanho: tamanho,
+                donos: donos,
+                localizacao: localizacao
+            };
+
+            // Adicionar propriedade ao armazenamento local
+            var propriedadesSalvas = JSON.parse(localStorage.getItem('propriedades')) || [];
+            propriedadesSalvas.push(propriedade);
+            localStorage.setItem('propriedades', JSON.stringify(propriedadesSalvas));
+
+            // Adicionar propriedade à tabela
+            adicionarLinhaTabela(propriedade);
+
+            // Limpar o formulário após o cadastro
+            document.getElementById('cadastroForm').reset();
+        }
+
+        function adicionarLinhaTabela(propriedade) {
+            var table = document.getElementById('tabelaPropriedades').getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow(table.rows.length);
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+            var cell5 = newRow.insertCell(4);
+            var cell6 = newRow.insertCell(5);
+
+            cell1.innerHTML = propriedade.nome;
+            cell2.innerHTML = propriedade.abreviacao;
+            cell3.innerHTML = propriedade.tamanho;
+            cell4.innerHTML = propriedade.donos;
+            cell5.innerHTML = propriedade.localizacao;
+
+            // Adicionar botão de exclusão
+            var btnExcluir = document.createElement('button');
+            btnExcluir.textContent = 'Excluir';
+            btnExcluir.onclick = function () {
+                excluirPropriedade(newRow.rowIndex);
+            };
+            cell6.appendChild(btnExcluir);
+        }
+
+        function excluirPropriedade(rowIndex) {
+            var table = document.getElementById('tabelaPropriedades').getElementsByTagName('tbody')[0];
+            table.deleteRow(rowIndex - 1);
+
+            // Remover propriedade do armazenamento local
+            var propriedadesSalvas = JSON.parse(localStorage.getItem('propriedades')) || [];
+            propriedadesSalvas.splice(rowIndex - 1, 1);
+            localStorage.setItem('propriedades', JSON.stringify(propriedadesSalvas));
+        }
+    </script>
+</body>
+</html>
